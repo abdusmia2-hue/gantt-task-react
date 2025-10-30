@@ -135,7 +135,7 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
             y={
               shouldRenderSplit && isTextInside
           ? task.y + taskHeight * 0.5 - 5
-          : task.y + taskHeight * 0.5
+          : task.y + taskHeight * 0.5 + (isTextInside ? 0 : 2) // Add 2 when outside
             }
         className={
           isTextInside
