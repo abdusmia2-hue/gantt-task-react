@@ -81,22 +81,25 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
   }, [textRef, task]);
 
   const getX = () => {
-    const width = task.x2 - task.x1;
-    const hasChild = task.barChildren.length > 0;
-    if (isTextInside) {
-      return task.x1 + width * 0.5;
-    }
-    if (rtl && textRef.current) {
-      return (
-        task.x1 -
-        textRef.current.getBBox().width -
-        arrowIndent * +hasChild -
-        arrowIndent * 0.2
-      );
-    } else {
-      return task.x1 + width + arrowIndent * +hasChild + arrowIndent * 0.2;
-    }
-  };
+  const width = task.x2 - task.x1;
+  const hasChild = task.barChildren.length > 0;
+  const iconWidth = 13; // Adjust based on your actual icon width
+  if (isTextInside) {
+    return task.x1 + width * 0.5;
+  }  
+  if (rtl && textRef.current) {
+    const textWidth = textRef.current.getBBox().width;
+    return (
+      task.x1 -
+      textWidth -
+      iconWidth - // Account for icon width
+      arrowIndent * +hasChild -
+      arrowIndent * 0.2
+    );
+  } else {
+    return task.x1 + width + arrowIndent * +hasChild + arrowIndent * 0.2 + iconWidth;
+  }
+};
 
   return (
     <g
@@ -132,13 +135,14 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
             y={
               shouldRenderSplit && isTextInside
           ? task.y + taskHeight * 0.5 - 5
-          : task.y + taskHeight * 0.5
+          : task.y + taskHeight * 0.5 + (isTextInside ? 0 : 2) // Add 2 when outside
             }
         className={
           isTextInside
             ? style.barLabel
             : style.barLabel && style.barLabelOutside
         }
+        style={{ fontSize: 11 }}
         ref={textRef}
       >
         {task.name}
