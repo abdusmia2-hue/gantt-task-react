@@ -24,6 +24,7 @@ export interface Task {
    */
   progress: number;
   status?: string;
+  variance?: string;
   styles?: {
     backgroundColor?: string;
     backgroundSelectedColor?: string;
